@@ -1,0 +1,39 @@
+def is_safe(graph, node, color, color_assignment):
+    for neighbor in graph[node]:
+        if color_assignment[neighbor] == color:
+            return False
+    return True
+def map_coloring(graph, colors, node, color_assignment):
+    if node not in graph:
+        return True
+    for color in colors:
+        if is_safe(graph, node, color, color_assignment):
+            color_assignment[node] = color
+            next_node = None
+            for neighbor in graph[node]:
+                if color_assignment[neighbor] is None:
+                    next_node = neighbor
+                    break
+            if next_node is None:
+                return True
+            if map_coloring(graph, colors, next_node, color_assignment):
+                return True
+            color_assignment[node] = None 
+    return False
+if __name__ == "__main__":
+    graph = {
+        'WA': ['NT', 'SA'],
+        'NT': ['WA', 'SA', 'Q'],
+        'SA': ['WA', 'NT', 'Q', 'NSW', 'V'],
+        'Q': ['NT', 'SA', 'NSW'],
+        'NSW': ['Q', 'SA', 'V'],
+        'V': ['SA', 'NSW']
+    }
+    colors = ['Red', 'Blue', 'Green']
+    color_assignment = {node: None for node in graph}
+    if map_coloring(graph, colors, 'WA', color_assignment):
+        print("Map coloring possible!")
+        for node, color in color_assignment.items():
+            print(f"{node}: {color}")
+    else:
+        print("Map coloring not possible!")
