@@ -1,0 +1,45 @@
+import random
+
+class VacuumCleaner:
+    def __init__(self):
+        self.position = (random.randint(0, 1), random.randint(0, 1))
+        self.environment = [[random.choice([0, 1]) for _ in range(2)] for _ in range(2)]
+
+    def clean(self):
+        if self.environment[self.position[0]][self.position[1]] == 1:
+            print(f"Cleaning dirt at position {self.position}")
+            self.environment[self.position[0]][self.position[1]] = 0
+        else:
+            print("No dirt to clean.")
+
+    def move(self):
+        directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+        next_position = random.choice(directions)
+        new_x = self.position[0] + next_position[0]
+        new_y = self.position[1] + next_position[1]
+
+        if 0 <= new_x < 2 and 0 <= new_y < 2:
+            print(f"Moving to position ({new_x}, {new_y})")
+            self.position = (new_x, new_y)
+        else:
+            print("Cannot move to that position.")
+
+    def display_environment(self):
+        for row in self.environment:
+            print(row)
+
+
+def main():
+    cleaner = VacuumCleaner()
+    print("Initial Environment:")
+    cleaner.display_environment()
+    print("Cleaning Process:")
+    for _ in range(5):  # Perform 5 cleaning actions
+        cleaner.clean()
+        cleaner.move()
+    print("Final Environment:")
+    cleaner.display_environment()
+
+
+if __name__ == "__main__":
+    main()
