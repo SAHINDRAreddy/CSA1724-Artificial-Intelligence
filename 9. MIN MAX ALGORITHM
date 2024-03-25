@@ -1,0 +1,39 @@
+import math
+import random
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.children = []
+    def is_terminal(self):
+        return not self.children
+    def evaluate(self):
+        return random.randint(0, 100)
+    def get_possible_moves(self):
+        return self.children
+def minimax(node, depth, maximizing_player):
+    if depth == 0 or node.is_terminal():
+        return node.evaluate(), None
+    if maximizing_player:
+        max_eval = -math.inf
+        best_move = None
+        for move in node.get_possible_moves():
+            eval, _ = minimax(move, depth - 1, False)
+            if eval > max_eval:
+                max_eval = eval
+                best_move = move
+        return max_eval, best_move
+    else:
+        min_eval = math.inf
+        best_move = None
+        for move in node.get_possible_moves():
+            eval, _ = minimax(move, depth - 1, True)
+            if eval < min_eval:
+                min_eval = eval
+                best_move = move
+        return min_eval, best_move
+if __name__ == "__main__":
+    initial_node = Node(0)
+    initial_node.children = [Node(1), Node(2), Node(3)]
+    best_score, best_move = minimax(initial_node, depth=2, maximizing_player=True)
+    print("Best move:", best_move.value)
+    print("Best score:", best_score)
