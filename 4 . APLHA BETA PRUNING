@@ -1,0 +1,44 @@
+def minimax_alpha_beta(node, depth, alpha, beta, maximizing_player):
+    if depth == 0 or node.is_terminal():
+        return node.value
+    
+    if maximizing_player:
+        value = float("-inf")
+        for child in node.children():
+            value = max(value, minimax_alpha_beta(child, depth - 1, alpha, beta, False))
+            alpha = max(alpha, value)
+            if alpha >= beta:
+                break
+        return value
+    else:
+        value = float("inf")
+        for child in node.children():
+            value = min(value, minimax_alpha_beta(child, depth - 1, alpha, beta, True))
+            beta = min(beta, value)
+            if beta <= alpha:
+                break
+        return value
+
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.children_nodes = []
+
+    def is_terminal(self):
+        return not self.children_nodes
+
+    def children(self):
+        return self.children_nodes
+
+root = Node(0)
+child1 = Node(3)
+child2 = Node(12)
+child3 = Node(8)
+root.children_nodes = [child1, child2, child3]
+
+child1.children_nodes = [Node(7), Node(2)]
+child2.children_nodes = [Node(5), Node(10)]
+child3.children_nodes = [Node(6), Node(9)]
+
+best_value = minimax_alpha_beta(root, 3, float("-inf"), float("inf"), True)
+print("Best value:", best_value)
