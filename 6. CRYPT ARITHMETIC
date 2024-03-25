@@ -1,0 +1,28 @@
+def mod_add(a, b, modulus):
+    return (a + b) % modulus
+
+def mod_sub(a, b, modulus):
+    return (a - b) % modulus
+
+def mod_mul(a, b, modulus):
+    return (a * b) % modulus
+
+def mod_exp(base, exponent, modulus):
+    return pow(base, exponent, modulus)
+
+a = 10
+b = 5
+modulus = 17
+
+result_add = mod_add(a, b, modulus)
+print("Modular Addition:", result_add)
+
+result_sub = mod_sub(a, b, modulus)
+print("Modular Subtraction:", result_sub)
+
+result_mul = mod_mul(a, b, modulus)
+print("Modular Multiplication:", result_mul)
+
+exponent = 3
+result_exp = mod_exp(a, exponent, modulus)
+print("Modular Exponentiation:", result_exp)
